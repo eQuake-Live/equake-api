@@ -5,7 +5,7 @@ import { getJST, hhmmss, yyyymmdd } from '../../utils/date.ts'
  *
  * 誤差を想定し、常に最新の画像を取得できるようにする
  */
-export const getImage = async (): Promise<null | Uint8Array> => {
+export const getImage = async (): Promise<null | {image: Uint8Array, usedTime: Date}> => {
   const now = getJST().getTime()
 
   const times: Date[] = []
@@ -19,12 +19,16 @@ export const getImage = async (): Promise<null | Uint8Array> => {
     }/${yyyymmdd(time)}${hhmmss(time)}.jma_s.gif`
   )
 
-  const latestResponse = (await Promise.all(urls.map(async (url) => {
-    return await fetch(url)
-  }))).filter((res) => res.ok).at(-1)
+  const latestResponse = (await Promise.all(urls.map(async (url, index): Promise<[Response, Date]> => {
+    return [await fetch(url), times[index]]
+  }))).filter(([res]) => res.ok).at(-1)
 
   if (!latestResponse) {
     return null
   }
-  return new Uint8Array(await latestResponse.arrayBuffer())
+  const [res, time] = latestResponse
+  return {
+    image: new Uint8Array(await res.arrayBuffer()),
+    usedTime: time
+  }
 }

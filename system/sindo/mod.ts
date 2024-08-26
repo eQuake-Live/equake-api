@@ -7,10 +7,14 @@ import { parseSindo, Sindo } from './parse-sindo.ts'
 
 interface CachedImages {
   sindo?: {
-    image: Uint8Array
     time: number
-    data: Sindo[]
+    data: SindoData
   }
+}
+
+interface SindoData {
+  sindo: Sindo[]
+  usedTime: string
 }
 
 export class RealTimeSindo {
@@ -20,20 +24,23 @@ export class RealTimeSindo {
 
   #cached: CachedImages
 
-  async getSindo(): Promise<Sindo[]> {
+  async getSindo(): Promise<SindoData | null> {
     const now = new Date().getTime()
     if (this.#cached.sindo && this.#cached.sindo.time + 1000 > now) {
       return this.#cached.sindo.data
     }
-    const image = await getImage()
-    if (!image) {
-      return []
+    const gotImage = await getImage()
+    if (!gotImage) {
+      return null
+    }
+    const data: SindoData = {
+      usedTime: gotImage.usedTime.toString(),
+      sindo: await parseSindo(gotImage.image)
     }
     this.#cached.sindo = {
-      image,
       time: now,
-      data: await parseSindo(image),
+      data
     }
-    return this.#cached.sindo.data
+    return data
   }
 }

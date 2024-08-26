@@ -1,4 +1,4 @@
-# kmoni-API
+# eQuake-API
 
 強震モニタから情報を抽出する API サーバーです。
 
@@ -18,7 +18,7 @@
 リアルタイムの深度を取得します。 結果:
 
 ```ts
-type Result = {
+interface Sindo {
   /**
    * 北緯
    */
@@ -32,5 +32,9 @@ type Result = {
    * 計測震度 (min: -3, max: 7)
    */
   sindo: number
-}[]
+}
+interface Result {
+  sindo: Sindo[]
+  usedTime: string
+}
 ```
