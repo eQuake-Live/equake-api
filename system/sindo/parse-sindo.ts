@@ -11,8 +11,8 @@ const CHINAI_KISHODAI = {
   n: 45.415,
   e: 141.666,
 
-  x: 5,
-  y: 334,
+  x: 266,
+  y: 21,
 }
 const AMAMI_KANSOKU: typeof CHINAI_KISHODAI = {
   n: 28.243,
@@ -36,6 +36,7 @@ export interface Sindo {
    */
   sindo: number
 }
+const PIXEL_BY_POS = 24.4821092279
 
 export const parseSindo = async (image: Uint8Array): Promise<Sindo[]> => {
   const loadedImage = await loadImage(image)
@@ -44,7 +45,11 @@ export const parseSindo = async (image: Uint8Array): Promise<Sindo[]> => {
   ctx.drawImage(loadedImage, 0, 0)
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 
+  const { width, height } = canvas
+
   const result: Sindo[] = []
+
+  positions.sort((a, b) => a[1] - b[1])
 
   for (const [x, y] of positions) {
     const [r, g, b] = getPixelFromImageData(imageData as ImageData, x, y)
@@ -57,8 +62,9 @@ export const parseSindo = async (image: Uint8Array): Promise<Sindo[]> => {
 
     // 沖縄は別世界らしいです
     const BASE_POS = (166 > x && 198 > y) ? AMAMI_KANSOKU : CHINAI_KISHODAI
-    const n = y / BASE_POS.y * BASE_POS.n
-    const e = x / BASE_POS.x * BASE_POS.e
+
+    const n = BASE_POS.n - ((y - BASE_POS.y) / PIXEL_BY_POS)
+    const e = BASE_POS.e - ((x - BASE_POS.x) / PIXEL_BY_POS)
 
     result.push({
       sindo,
