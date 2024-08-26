@@ -15,11 +15,11 @@ const CHINAI_KISHODAI = {
   y: 21,
 }
 const AMAMI_KANSOKU: typeof CHINAI_KISHODAI = {
-  n: 28.243,
-  e: 120.175,
+  n: 26.8717,
+  e: 128.2656,
 
-  x: 148,
-  y: 89,
+  x: 117,
+  y: 130,
 }
 export interface Sindo {
   /**
