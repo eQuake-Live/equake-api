@@ -19,4 +19,9 @@ app.get('/sindo', async (c) => {
   return c.json(sindo)
 })
 
+app.get('/time', c => c.json({
+  time: new Date().getTime(),
+  string: new Date().toUTCString()
+}))
+
 export default app
