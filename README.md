@@ -38,3 +38,6 @@ interface Result {
   usedTime: string
 }
 ```
+
+### GET `/keiho`
+

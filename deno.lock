@@ -2,12 +2,16 @@
   "version": "3",
   "packages": {
     "specifiers": {
+      "jsr:@b-fuze/deno-dom@^0.1.47": "jsr:@b-fuze/deno-dom@0.1.47",
       "jsr:@hono/hono@^4.5.8": "jsr:@hono/hono@4.5.8",
       "jsr:@josefabio/deno-canvas@^1.5.1": "jsr:@josefabio/deno-canvas@1.5.1",
       "jsr:@omega/color@^1.2.11": "jsr:@omega/color@1.2.11",
       "jsr:@std/encoding@^0.224.2": "jsr:@std/encoding@0.224.3"
     },
     "jsr": {
+      "@b-fuze/deno-dom@0.1.47": {
+        "integrity": "270a888de91329f8ce3849211ece0ad97ce1e8b9a8a774f2bed2f43c8b0ffe8e"
+      },
       "@hono/hono@4.5.8": {
         "integrity": "60f5b4c61edae2016022d6087b4fc381f378d337f046f56e00a3a3512c7e9c16"
       },
@@ -43,6 +47,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@b-fuze/deno-dom@^0.1.47",
       "jsr:@hono/hono@^4.5.8",
       "jsr:@josefabio/deno-canvas@^1.5.1",
       "jsr:@omega/color@^1.2.11"

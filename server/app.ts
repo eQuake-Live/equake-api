@@ -2,6 +2,7 @@ import { Hono } from '@hono/hono'
 import { RealTimeSindo } from '../system/mod.ts'
 import { prettyJSON } from '@hono/hono/pretty-json'
 import { cors } from '@hono/hono/cors'
+import { KeihoService } from '../system/keiho/mod.ts'
 
 const app = new Hono()
 
@@ -19,9 +20,17 @@ app.get('/sindo', async (c) => {
   return c.json(sindo)
 })
 
+const keihoService = new KeihoService()
+app.get('/keiho', async (c) => {
+  const keiho = await keihoService.getKeiho()
+  return c.json(keiho)
+})
+app.get('/areacodes', async (c) => c.json(await keihoService.getAreaCodes()))
+
 app.get('/time', c => c.json({
   time: new Date().getTime(),
   string: new Date().toUTCString()
 }))
+
 
 export default app

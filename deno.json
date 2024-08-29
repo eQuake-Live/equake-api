@@ -4,6 +4,7 @@
     "start": "deno run --allow-net server/main.ts"
   },
   "imports": {
+    "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.47",
     "@hono/hono": "jsr:@hono/hono@^4.5.8",
     "@josefabio/deno-canvas": "jsr:@josefabio/deno-canvas@^1.5.1",
     "@omega/color": "jsr:@omega/color@^1.2.11"
